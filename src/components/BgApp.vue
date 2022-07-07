@@ -26,7 +26,7 @@ export default {
     background-size: cover;
     background-position: center;
     z-index: -1;
-    background-color: #e2c95f;
+    background-color: #eed56d;
     &::after {
       content: "";
       position: absolute;

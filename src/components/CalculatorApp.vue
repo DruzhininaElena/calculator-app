@@ -118,7 +118,7 @@ export default {
     margin: 20vh auto;
     padding: 30px;
     border-radius: 10px;
-    background: rgb(100,100,100) radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.65), rgba(255,255,255,.35));
+    background: #8e8e8e;
     box-shadow:
       inset rgba(0,0,0,.6) 0 -3px 8px,
       inset rgba(252,255,255,.7) 0 3px 8px,
@@ -157,7 +157,7 @@ export default {
     transform: translateY(3px)
   }
   .bg-gray {
-    background: #8e8e8e;
+    background: #bbbbbb;
   }
   .bg-gray:hover {
     cursor: pointer;
