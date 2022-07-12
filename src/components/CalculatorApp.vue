@@ -33,7 +33,9 @@ export default {
       calculatorElements: ['C', '*', '/', '←', 7, 8, 9, '-', 4, 5, 6, '+', 1, 2, 3, '%', 0, '.', '='],
       operator: null,
       previousCalculatorValue: '',
-      result: false
+      result: false,
+      lastOperator: null,
+      lastValue: ''
     }
   },
   methods: {
@@ -52,6 +54,8 @@ export default {
         this.calculatorValue = ''
         this.operator = null
         this.result = false
+        this.lastOperator = null
+        this.lastValue = ''
       }
       /* Clear last symbol */
       if (n === '←') {
@@ -66,7 +70,10 @@ export default {
       if (['/', '*', '-', '+'].includes(n)) {
         if (!this.calculatorValue && n !== '-') return
         if (this.calculatorValue === '-') return
-        if (this.operator) {
+        if (this.operator &&
+          ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(this.calculatorValue[this.calculatorValue.length - 1])) return
+        if (this.operator &&
+          !['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(this.calculatorValue[this.calculatorValue.length - 1])) {
           this.calculatorValue = this.calculatorValue.slice(0, -1) + n
           this.operator = n
           return
@@ -77,9 +84,14 @@ export default {
       }
       /* Calculate result */
       if (n === '=') {
+        if (this.lastOperator) {
+          this.calculatorValue = this.applyOperator(this.lastOperator, Number(this.calculatorValue), Number(this.lastValue)).toString()
+        }
         if (!this.operator) return
+        this.lastOperator = this.operator
         const arr = this.calculatorValue.split(this.operator)
         this.calculatorValue = arr[arr.length - 1]
+        this.lastValue = this.calculatorValue
         if (this.calculatorValue.slice(-1) === '%') {
           this.calculatorValue = Number(this.previousCalculatorValue) * Number(this.calculatorValue.slice(0, -1)) / 100
         }
@@ -106,6 +118,12 @@ export default {
   watch: {
     calculatorValue (value) {
       if (!value || value === '-') this.operator = null
+    },
+    operator (value) {
+      if (value) {
+        this.lastOperator = null
+        this.lastValue = ''
+      }
     }
   }
 }
